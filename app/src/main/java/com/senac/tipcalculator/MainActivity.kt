@@ -40,9 +40,14 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MyApp() {
-    var valor by remember {
+    var custom by remember {
+        mutableStateOf(18)
+    }
+
+    var amount by remember {
         mutableStateOf(0)
     }
+
     Column(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -51,30 +56,35 @@ fun MyApp() {
 
         Row() {
             Text(text = "Amount", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(all = 25.dp))
-            OutlinedTextField(value = "", onValueChange = { "tryNumberState.value = it "}, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
-
+            OutlinedTextField(value = amount.toString(), onValueChange = { amount = it.toInt() }, keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number))
         }
 
         Row() {
             Text(text = "Custom %", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(all = 25.dp))
-            SliderComponent(valor, onValorChange = { valor = it })
-            MostrarValor(valor)
+            SliderComponent(custom, onValorChange = { custom = it })
+            MostrarValor(custom)
         }
+
+        var fixTip = (15 * amount)/ 100
+        var fixTotaltip = if (amount != 0)  ((15 * amount)/ 100) + amount else 0
+
+        var customTip = (custom * amount)/ 100
+        var customTotaltip = if (amount != 0)  ((custom * amount)/ 100) + amount else 0
 
         Row() {
             Text(text = "15%", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 20.dp, end = 20.dp, bottom = 10.dp, top = 25.dp))
-            Text(text = "25%", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 90.dp, end = 20.dp, bottom = 10.dp, top = 25.dp))
+            Text(text = "${custom}%", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 90.dp, end = 20.dp, bottom = 10.dp, top = 25.dp))
         }
         Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Tip", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 30.dp, top = 10.dp, bottom = 10.dp, end = 45.dp))
-            Text(text = "$ 0.00", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 1.dp, top = 10.dp, bottom = 10.dp, end = 35.dp))
-            Text(text = "$ 0.00", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 60.dp, top = 10.dp, bottom = 10.dp, end = 1.dp))
+            Text(text = "$ ${fixTip}", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 1.dp, top = 10.dp, bottom = 10.dp, end = 35.dp))
+            Text(text = "$ ${customTip}", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 60.dp, top = 10.dp, bottom = 10.dp, end = 1.dp))
         }
 
         Row(horizontalArrangement = Arrangement.Start, modifier = Modifier.fillMaxWidth()) {
             Text(text = "Total", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 30.dp, top = 10.dp, bottom = 10.dp, end = 30.dp))
-            Text(text = "$ 0.00", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 1.dp, top = 10.dp, bottom = 10.dp, end = 1.dp))
-            Text(text = "$ 0.00", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 95.dp, top = 10.dp, bottom = 10.dp, end = 10.dp))
+            Text(text = "$ ${fixTotaltip}", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 1.dp, top = 10.dp, bottom = 10.dp, end = 1.dp))
+            Text(text = "$ ${customTotaltip}", style = MaterialTheme.typography.subtitle1, modifier = Modifier.padding(start = 95.dp, top = 10.dp, bottom = 10.dp, end = 10.dp))
         }
     }
 }

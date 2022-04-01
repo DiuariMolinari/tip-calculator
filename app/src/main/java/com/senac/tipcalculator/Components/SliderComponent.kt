@@ -9,8 +9,8 @@ fun SliderComponent(valor: Int, onValorChange: (Int) -> Unit) {
     Slider(
         value = valor.toFloat(),
         onValueChange = { onValorChange( it.toInt() ) },
-        valueRange = 0f..100f,
-        steps = 5
+        valueRange = 1f..30f,
+        steps = 2
     )
 
 }
